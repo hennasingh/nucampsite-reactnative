@@ -8,6 +8,7 @@ export default function CampsiteInfoScreen({ route }) {
     const {campsite } = route.params;
 
     const [comments] = React.useState(COMMENTS);
+    const [favorite, setFavorite] = React.useState(false);
 
     const renderCommentItem = ({ item }) => {
         return (
@@ -28,7 +29,10 @@ export default function CampsiteInfoScreen({ route }) {
             contentContainerStyle={{ marginHorizontal: 20, paddingVertical: 20}}
             ListHeaderComponent= {
                 <>
-                    <RenderCampsite campsite={campsite} />
+                    <RenderCampsite 
+                    campsite={campsite}
+                    isFavorite= {favorite} 
+                    markFavorite= {() => setFavorite(true)}/>
                     <Text style={styles.commentsTitle}>Comments</Text>
                 </>
             }
