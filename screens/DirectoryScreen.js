@@ -1,8 +1,9 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from '../components/LoadingComponent';
 
 export default function DirectoryScreen({navigation}) {
 
@@ -11,6 +12,17 @@ export default function DirectoryScreen({navigation}) {
 
     const renderDirectoryItem = ({item:campsite}) => {
         
+    if(campsites.isLoading){
+        return <Loading />
+    }
+
+    if (campsites.errMess) {
+        return (
+            <View>
+                <Text>{campsites.errMess}</Text>
+            </View>
+        )
+    }
         return (
             <Tile onPress= {() => navigation.navigate('CampsiteInfo', { campsite })}
                 title={campsite.name}

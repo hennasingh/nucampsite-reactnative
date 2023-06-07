@@ -151,7 +151,7 @@ export default function MainComponent() {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    React.useEffect(() => {
         dispatch(fetchCampsites());
         dispatch(fetchPromotions());
         dispatch(fetchPartners());
