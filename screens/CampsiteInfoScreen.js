@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, Text, View, Button, Modal} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
 import { Rating, Input, Icon } from 'react-native-elements';
+import { postComment } from '../features/comments/commentsSlice';
 
 
 export default function CampsiteInfoScreen({ route }) {
@@ -24,11 +25,12 @@ export default function CampsiteInfoScreen({ route }) {
         const newComment = {
             author,
             rating,
-            commentText,
+            text: commentText,
             campsiteId: campsite.id
         };
 
-        console.log(newComment);
+        //console.log(newComment);
+        dispatch(postComment(newComment));
         setShowModal(!showModal);
     }
 
@@ -108,7 +110,7 @@ export default function CampsiteInfoScreen({ route }) {
                             />
                         }
                         leftIconContainerStyle={{paddingRight:10}}
-                        onChangeText={(value) => setComment(value)}
+                        onChangeText={(text) => setComment(text)}
                         value={commentText}
                     />
                     <View style={{margin:10}}>
