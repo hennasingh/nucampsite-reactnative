@@ -3,6 +3,8 @@ import React from 'react'
 import { FlatList, StyleSheet, Text, View, Button, Modal} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
+import { Rating, Input, Icon } from 'react-native-elements';
+
 
 export default function CampsiteInfoScreen({ route }) {
     
@@ -11,15 +13,41 @@ export default function CampsiteInfoScreen({ route }) {
     const comments = useSelector((state) => state.comments)
     const [favorite, setFavorite] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
+    const [rating, setRating] = React.useState(5);
+    const [author, setAuthor ] = React.useState('');
+    const [commentText, setComment] = React.useState('');
 
     const favorites = useSelector((state) => state.favorites);
     const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        const newComment = {
+            author,
+            rating,
+            commentText,
+            campsiteId: campsite.id
+        };
+
+        console.log(newComment);
+        setShowModal(!showModal);
+    }
+
+    const resetForm = () => {
+        setRating(5);
+        setAuthor('');
+        setComment('');
+    }
 
     const renderCommentItem = ({ item }) => {
         return (
             <View style={styles.commentItem} >
                 <Text style={{ fontSize:14 }}>{item.text}</Text>
-                <Text style={{ fontSize:12 }}>{item.rating} Stars</Text>
+                <Rating 
+                    readonly
+                    startingValue={item.rating}
+                    imageSize={10}
+                    style={{alignItems: 'flex-start', paddingVertical:'5%'}}
+                />
                 <Text style={{ fontSize: 12 }}>{`-- ${item.author}, ${item.date}`}</Text>
             </View>
         )
@@ -52,9 +80,53 @@ export default function CampsiteInfoScreen({ route }) {
                 onRequestClose={() => setShowModal(!showModal)}
             >
                 <View style={styles.modal}>
+                    <Rating 
+                        showRating
+                        startingValue={rating}
+                        imageSize={40}
+                        onFinishRating={(rating) => setRating(rating)}
+                        style ={{paddingVertical :10}}
+                    />
+                    <Input 
+                        placeholder='Author'
+                        leftIcon={
+                            <Icon 
+                                name='user-o'
+                                type='font-awesome'
+                            />
+                        }
+                        leftIconContainerStyle={{paddingRight:10}}
+                        onChangeText={(value) => setAuthor(value)}
+                        value={author}
+                    />
+                    <Input 
+                        placeholder='comment'
+                        leftIcon={
+                            <Icon 
+                                name='comment-o'
+                                type='font-awesome'
+                            />
+                        }
+                        leftIconContainerStyle={{paddingRight:10}}
+                        onChangeText={(value) => setComment(value)}
+                        value={commentText}
+                    />
+                    <View style={{margin:10}}>
+                        <Button 
+                            title='Submit'
+                            color='#5637DD'
+                            onPress={() => {
+                                handleSubmit();
+                                resetForm();
+                            } }
+                        />
+                    </View>
                     <View style={{margin: 10}}>
                         <Button 
-                            onPress={() => setShowModal(!showModal)} 
+                            onPress={() => {
+                                setShowModal(!showModal);
+                                resetForm();
+                            }} 
                             color='#808080'
                             title='Cancel'
                         />
