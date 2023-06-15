@@ -1,3 +1,4 @@
+import React from 'react';
 import {StyleSheet, Text, View, PanResponder, Alert} from 'react-native'
 import { Card, Icon } from 'react-native-elements'
 import { baseUrl } from '../../shared/baseUrl';
@@ -5,10 +6,16 @@ import * as Animatable from 'react-native-animatable';
 
 export default function RenderCampsite(props) {
     const { campsite } = props;
+    const view = React.useRef();
     const isLeftSwipe = ({ dx }) => dx < -200;
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            view.current
+                .rubberBand(1000)
+                .then((endState) => console.log(endState.finished ? 'finished' : 'canceled'))
+        },
         onPanResponderEnd: (e, gestureState) => {
             console.log(gestureState)
             if (isLeftSwipe(gestureState)) {
@@ -43,7 +50,8 @@ export default function RenderCampsite(props) {
                 animation='fadeInDownBig'
                 duration={2000}
                 delay={1000}
-                {...panResponder.panHandlers}
+                ref={view}
+                {...panResponder.panHandlers}              
             >
                 <Card containerStyle={styles.cardContainer}>
                     <Card.Image source={{ uri: baseUrl + campsite.image}}>
