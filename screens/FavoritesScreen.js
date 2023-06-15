@@ -5,6 +5,7 @@ import Loading from '../components/LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
+import * as Animatable from 'react-native-animatable'
 
 
 export default function FavoritesScreen({ navigation }) {
@@ -77,11 +78,16 @@ export default function FavoritesScreen({ navigation }) {
         }
 
         return (
-            <FlatList 
-                data = {campsitesArray.filter((campsite) => favorites.includes(campsite.id))}
-                renderItem = {renderFavoriteItem}
-                keyExtractor= {(item) => item.id.toString()}
-            />
+            <Animatable.View
+                animation='fadeInRightBig'
+                duration={2000}
+            >
+                <FlatList 
+                    data = {campsitesArray.filter((campsite) => favorites.includes(campsite.id))}
+                    renderItem = {renderFavoriteItem}
+                    keyExtractor= {(item) => item.id.toString()}
+                />
+            </Animatable.View>
         )
 }
 
