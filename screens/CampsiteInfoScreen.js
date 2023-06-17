@@ -71,10 +71,10 @@ export default function CampsiteInfoScreen({ route }) {
                 ListHeaderComponent= {
                     <>
                         <RenderCampsite 
-                        campsite={campsite}
-                        isFavorite= {favorites.includes(campsite.id)} 
-                        markFavorite= {() => dispatch(toggleFavorite(campsite.id))}
-                        onShowModal={() => setShowModal(!showModal)}
+                            campsite={campsite}
+                            isFavorite= {favorites.includes(campsite.id)} 
+                            markFavorite= {() => dispatch(toggleFavorite(campsite.id))}
+                            onShowModal={() => setShowModal(!showModal)}
                         />
                         <Text style={styles.commentsTitle}>Comments</Text>
                     </>
