@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { baseUrl } from '../shared/baseUrl';
 import logo from '../assets/images/logo.png';
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
 
 
 function LoginTab({ navigation }) {
@@ -181,6 +182,7 @@ const RegisterTab = () => {
         
         console.log(processedImage)
         setImageUrl(processedImage.uri)
+        MediaLibrary.saveToLibraryAsync(processedImage.uri)
 
     }
 
